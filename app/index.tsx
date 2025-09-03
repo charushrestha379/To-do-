@@ -1,7 +1,8 @@
 import { View, Text, FlatList, StyleSheet, Image, TouchableOpacity, TextInput} from 'react-native';
 // import { FlatList } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import {Ionicons} from "@expo/vector-icons"
+import {Ionicons} from "@expo/vector-icons";
+import Checkbox from 'expo-checkbox';
 
 export default function App() {
   //the todoData is an constant array variable, it can't be reassign
@@ -9,7 +10,7 @@ const todoData = [
   {
     id: 1,
     title: "Todo 1",
-    isDone: false,
+    isDone: true,
   },
   {
     id: 2,
@@ -44,7 +45,7 @@ const todoData = [
       </View>
       <View style = {styles.searchbar}>
         <Ionicons name = "search" size = {24} color = 'black' />
-        <TextInput placeholder= "search" style = {styles.searchInput}/>
+        <TextInput placeholder= "search" style = {styles.searchInput} clearButtonMode = "always" />
 
       </View>
 
@@ -58,10 +59,17 @@ const todoData = [
     data = {todoData}
     keyExtractor={(item) => item.id.toString()}
     renderItem={({item}) => (
-      <View>
-        <Text style={styles.textcontent}>
+      <View
+      style = {styles.textcontent}>
+        <View style = {styles.checkbox}>
+        <Checkbox value = {item.isDone}  />
+        <Text style={item.isDone &&{textDecorationLine: 'line-through'}}>
           {item.title}
         </Text>
+        </View>
+        <TouchableOpacity onPress= {() => {alert("Deleted " + item.title)}}>
+        <Ionicons name = "trash" size = {20} color = 'grey' />
+        </TouchableOpacity>
       </View>
     )}
     />
@@ -98,14 +106,28 @@ searchbar:{
 },
 textcontent:{
   paddingHorizontal: 13,
-  padding:5,
+  padding:16,
+  backgroundColor: '#e6e6e6',
+  flexDirection: 'row',
+  alignItems: 'center',
+  gap: 13,
+  borderRadius: 20,
+  marginBottom: 15,
+  justifyContent: 'space-between'
+
   
   
 },
 searchInput: {
   flex: 1,
-   fontSize: 16,
-   color: 'black'
+  fontSize: 16,
+  color: 'black'
 
+},
+checkbox: {
+  borderRadius: 5,
+  flexDirection: 'row',
+  alignItems: 'center',
+  gap: 13
 }
 })
