@@ -1,4 +1,4 @@
-import { View, Text, FlatList, StyleSheet, Image, TouchableOpacity, TextInput} from 'react-native';
+import { View, Text, FlatList, StyleSheet, Image, TouchableOpacity, TextInput, KeyboardAvoidingView} from 'react-native';
 // import { FlatList } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {Ionicons} from "@expo/vector-icons";
@@ -73,6 +73,12 @@ const todoData = [
       </View>
     )}
     />
+    <KeyboardAvoidingView style = {styles.footer} behavior = "padding" keyboardVerticalOffset = {10}>
+      <TextInput placeholder= "Add a new task" style = {styles.newTodoInput} />
+      <TouchableOpacity style = {styles.addButton} onPress = {() => {}}>
+        <Ionicons name= "add" size = {24} color = {'white'} />
+      </TouchableOpacity>
+    </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }
@@ -129,5 +135,29 @@ checkbox: {
   flexDirection: 'row',
   alignItems: 'center',
   gap: 13
+},
+footer: {
+  flexDirection: 'row',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+},
+addButton: {
+  backgroundColor: 'grey',
+  padding: 12,
+  borderRadius: 20,
+  marginLeft: 10,
+  
+
+
+},
+newTodoInput: {
+  flex: 1,
+  backgroundColor: '#e6e6e6',
+  padding: 12,
+  paddingHorizontal: 20,
+  borderRadius: 20,
+  fontSize: 16,
+  color: 'black',
+  
 }
 })
