@@ -4,6 +4,12 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import {Ionicons} from "@expo/vector-icons";
 import Checkbox from 'expo-checkbox';
 
+type ToDoType = {
+  id: number;
+  title: string;
+  isDone: boolean;
+}
+
 export default function App() {
   //the todoData is an constant array variable, it can't be reassign
 const todoData = [
@@ -59,18 +65,7 @@ const todoData = [
     data = {todoData}
     keyExtractor={(item) => item.id.toString()}
     renderItem={({item}) => (
-      <View
-      style = {styles.textcontent}>
-        <View style = {styles.checkbox}>
-        <Checkbox value = {item.isDone}  />
-        <Text style={item.isDone &&{textDecorationLine: 'line-through'}}>
-          {item.title}
-        </Text>
-        </View>
-        <TouchableOpacity onPress= {() => {alert("Deleted " + item.title)}}>
-        <Ionicons name = "trash" size = {20} color = 'grey' />
-        </TouchableOpacity>
-      </View>
+      <ToDoItem todo = {item} />
     )}
     />
     <KeyboardAvoidingView style = {styles.footer} behavior = "padding" keyboardVerticalOffset = {10}>
@@ -82,6 +77,22 @@ const todoData = [
     </SafeAreaView>
   );
 }
+const ToDoItem = ({todo} : {todo: ToDoType}) => (
+  <View
+      style = {styles.textcontent}>
+        <View style = {styles.checkbox}>
+        <Checkbox value = {todo.isDone} color = {todo.isDone ? "black" : undefined} />
+        <Text style={todo.isDone &&{textDecorationLine: 'line-through'}}>
+          {todo.title}
+        </Text>
+        </View>
+        <TouchableOpacity onPress= {() => {alert("Deleted " + todo.title)}}>
+        <Ionicons name = "trash" size = {20} color = 'grey' />
+        </TouchableOpacity>
+      </View>
+)
+
+
 const styles = StyleSheet.create({
 container: {
   flex: 1,
