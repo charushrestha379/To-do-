@@ -3,6 +3,7 @@ import { View, Text, FlatList, StyleSheet, Image, TouchableOpacity, TextInput, K
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {Ionicons} from "@expo/vector-icons";
 import Checkbox from 'expo-checkbox';
+import {useState} from "react";
 
 type ToDoType = {
   id: number;
@@ -11,6 +12,11 @@ type ToDoType = {
 }
 
 export default function App() {
+ 
+//you can use const or let to declare a variable in typescript
+//useState is a hook that allows you to add state to a functional component
+//<ToDoType[]> is a type annotation that tells typescript that the state variable todos is an array of ToDoType
+//setTodos is a function that allows you to update the state variable todos
   //the todoData is an constant array variable, it can't be reassign
 const todoData = [
   {
@@ -29,6 +35,19 @@ const todoData = [
     isDone: false,
   }
 ]
+ const [todos, setTodos] = useState<ToDoType[]>([]);
+ const [todoText, setTodoText]  = useState<string>("");
+
+ const addTodo = () => {
+  const newTodo = {
+  id: Math.random(),
+  title: todoText,
+  isDone: false,
+  };
+  todos.push(newTodo);
+  setTodos(todos);
+  setTodoText("");
+ }
 
 //set up array before returning
   return (
@@ -62,15 +81,26 @@ const todoData = [
     //isDone is a boolean value that indicates whether the todo item is completed or not
     
     <FlatList
-    data = {todoData}
+    data = {[...todos].reverse()}
     keyExtractor={(item) => item.id.toString()}
     renderItem={({item}) => (
       <ToDoItem todo = {item} />
     )}
     />
-    <KeyboardAvoidingView style = {styles.footer} behavior = "padding" keyboardVerticalOffset = {10}>
-      <TextInput placeholder= "Add a new task" style = {styles.newTodoInput} />
-      <TouchableOpacity style = {styles.addButton} onPress = {() => {}}>
+
+    <KeyboardAvoidingView style = {styles.footer} 
+    behavior = "padding" 
+    keyboardVerticalOffset = {10}>
+
+      <TextInput placeholder= "Add a new task" 
+      value={todoText}
+      onChangeText={(text)=> setTodoText(text)} 
+      style = {styles.newTodoInput} 
+      autoCorrect = {false}
+      />
+
+      <TouchableOpacity style = {styles.addButton} 
+      onPress = {() => {}}>
         <Ionicons name= "add" size = {24} color = {'white'} />
       </TouchableOpacity>
     </KeyboardAvoidingView>
